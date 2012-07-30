@@ -1,0 +1,71 @@
+h1,h2,h3,p,ul,img,input[type=text],textarea {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    outline: none;
+}
+
+.clear {
+    clear: both;
+}
+
+.formPanel {
+    float: left;
+    margin-left: 20px;
+}
+
+.message {
+    float: left;
+    margin-left: 12px;
+}
+
+.message form {
+    background: url(../img/bkg-form.png) left top no-repeat;
+    min-height: 285px;
+    padding: 40px 45px;
+    width: 421px;
+}
+.message form .formfield {
+    position: relative;
+    margin-bottom: 20px;
+}
+.message form label {
+    color: #c99c54;
+    font-family: Georgia;
+    font-size: 18px;
+    font-style: italic;
+    left: 0px;
+    position: absolute;
+    top: 2px;
+}
+.message form .text {
+    background: none;
+    color: #c99c54;
+    font-family: Georgia;
+    font-size: 18px;
+    font-style: italic;
+    height: 31px;
+    line-height: 31px;
+    width: 411px;
+}
+.message form textarea {
+    background: none;
+    color: #c99c54;
+    font-family: Georgia;
+    font-size: 18px;
+    font-style: italic;
+    height: 170px;
+    max-height: 170px;
+    overflow: hidden;
+    width: 411px;
+    max-width: 411px;
+}
+.message .buttons { padding: 0px 10px 0px 0px; }
+.message .buttons a {
+    background: url(../img/buttons.png) -342px top no-repeat;
+    display: block;
+    height: 39px;
+    margin: 0px 0px 0px auto;
+    width: 114px;
+}
+.message .buttons a:hover { background: url(../img/buttons.png) -342px -39px no-repeat; }

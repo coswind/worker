@@ -30,8 +30,24 @@ _.extend(Store.prototype, {
   // Add a model, giving it a (hopefully)-unique GUID, if it doesn't already
   // have an id of it's own.
   create: function(model) {
+    $.ajax({
+      type: 'POST',
+      url: "/worker/crud",
+      contentType: 'application/json',
+      data: JSON.stringify({
+        crud: 'insert',
+        table: 'example',
+        data: {
+          name: [ 'id', 'data' ],
+          value: [ model.get('order'), model.get('title') ]
+        }
+      })
+    }).done(function() {
+      console.log(arguments[0]);
+    });
     if (!model.id) model.id = model.attributes.id = guid();
     this.data[model.id] = model;
+    console.log(model);
     this.save();
     return model;
   },
@@ -50,11 +66,39 @@ _.extend(Store.prototype, {
 
   // Return the array of all models currently in storage.
   findAll: function() {
+    $.ajax({
+      type: 'POST',
+      url: "/worker/crud",
+      contentType: 'application/json',
+      data: JSON.stringify({
+        crud: 'query',
+        table: 'worker',
+        range: 'id,name'
+      })
+    }).done(function() {
+      console.log(JSON.parse(arguments[0])[1]);
+    });
+    console.log(_.values(this.data));
     return _.values(this.data);
   },
 
   // Delete a model from `this.data`, returning it.
   destroy: function(model) {
+    $.ajax({
+      type: 'POST',
+      url: "/worker/crud",
+      contentType: 'application/json',
+      data: JSON.stringify({
+        crud: 'delete',
+        table: 'example',
+        where: {
+          attr: [ 'id', 'data' ],
+          data: [ model.get('order'), model.get('title') ]
+        }
+      })
+    }).done(function() {
+      console.log(arguments[0]);
+    });
     delete this.data[model.id];
     this.save();
     return model;
