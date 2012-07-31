@@ -30,78 +30,70 @@ _.extend(Store.prototype, {
   // Add a model, giving it a (hopefully)-unique GUID, if it doesn't already
   // have an id of it's own.
   create: function(model) {
-    $.ajax({
-      type: 'POST',
-      url: "/worker/crud",
-      contentType: 'application/json',
-      data: JSON.stringify({
-        crud: 'insert',
-        table: 'example',
-        data: {
-          name: [ 'id', 'data' ],
-          value: [ model.get('order'), model.get('title') ]
-        }
-      })
-    }).done(function() {
-      console.log(arguments[0]);
-    });
-    if (!model.id) model.id = model.attributes.id = guid();
-    this.data[model.id] = model;
-    console.log(model);
-    this.save();
     return model;
   },
 
   // Update a model by replacing its copy in `this.data`.
   update: function(model) {
-    this.data[model.id] = model;
-    this.save();
     return model;
   },
 
-  // Retrieve a model from `this.data` by id.
-  find: function(model) {
-    return this.data[model.id];
-  },
-
   // Return the array of all models currently in storage.
-  findAll: function() {
+  findAll: function(options) {
+    var searchName = options.searchName;
+    var data = {
+        crud: 'query',
+        table: 'worker',
+        range: '*',
+        order: { id: true }
+      };
+    if (searchName) {
+      data.where = {
+        attr: [ 'name_like' ],
+        data: [ '%' + searchName + '%' ]
+      };
+    }
     $.ajax({
       type: 'POST',
       url: "/worker/crud",
       contentType: 'application/json',
-      data: JSON.stringify({
-        crud: 'query',
-        table: 'worker',
-        range: 'id,name'
-      })
+      data: JSON.stringify(data)
     }).done(function() {
-      console.log(JSON.parse(arguments[0])[1]);
+      options.success(JSON.parse(arguments[0])[1].map(function(value) {
+        return {
+          _id: guid(),
+          address: value.address,
+          phone: value.phone,
+          intro: value.intro,
+          type: value.type,
+          order: value.id,
+          name: value.name
+        };
+      }));
     });
-    console.log(_.values(this.data));
-    return _.values(this.data);
   },
 
   // Delete a model from `this.data`, returning it.
-  destroy: function(model) {
+  destroy: function(model, options) {
+    if (options.pretend) return true;
     $.ajax({
       type: 'POST',
       url: "/worker/crud",
       contentType: 'application/json',
       data: JSON.stringify({
         crud: 'delete',
-        table: 'example',
+        table: 'worker',
         where: {
-          attr: [ 'id', 'data' ],
-          data: [ model.get('order'), model.get('title') ]
+          attr: [ 'id' ],
+          data: [ model.get('order') ]
         }
       })
     }).done(function() {
       console.log(arguments[0]);
+      var err = JSON.parse(arguments[0])[0];
+      if (err) return false;
+      return true;
     });
-    delete this.data[model.id];
-    this.save();
-    return model;
   }
 
 });
@@ -110,14 +102,16 @@ _.extend(Store.prototype, {
 // *localStorage* property, which should be an instance of `Store`.
 Backbone.sync = function(method, model, options) {
 
+  //console.trace();
+
   var resp;
   var store = model.localStorage || model.collection.localStorage;
 
   switch (method) {
-    case "read":    resp = model.id ? store.find(model) : store.findAll(); break;
+    case "read":    resp = model.id ? store.find(model) : store.findAll(options); return; break;
     case "create":  resp = store.create(model);                            break;
     case "update":  resp = store.update(model);                            break;
-    case "delete":  resp = store.destroy(model);                           break;
+    case "delete":  resp = store.destroy(model, options);                  break;
   }
 
   if (resp) {

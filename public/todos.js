@@ -9,22 +9,27 @@ $(function(){
   // Todo Model
   // ----------
 
-  // Our basic **Todo** model has `title`, `order`, and `done` attributes.
+  // Our basic **Todo** model has `name`, `order`, and `done` attributes.
   var Todo = Backbone.Model.extend({
 
+  	idAttribute: "_id",
 	// Default attributes for the todo item.
 	defaults: function() {
 	  return {
-		title: "empty todo...",
-		order: Todos.nextOrder(),
+		name: "empty todo...",
+		order: 1,
+		address: 'somewhere',
+		intro: 'sorry',
+		phone: '110',
+		type: 1,
 		done: false
 	  };
 	},
 
-	// Ensure that each todo created has `title`.
+	// Ensure that each todo created has `name`.
 	initialize: function() {
-	  if (!this.get("title")) {
-		this.set({"title": this.defaults.title});
+	  if (!this.get("name")) {
+		this.set({"name": this.defaults.name});
 	  }
 	},
 
@@ -63,16 +68,9 @@ $(function(){
 	  return this.without.apply(this, this.done());
 	},
 
-	// We keep the Todos in sequential order, despite being saved by unordered
-	// GUID in the database. This generates the next order number for new items.
-	nextOrder: function() {
-	  if (!this.length) return 1;
-	  return this.last().get('order') + 1;
-	},
-
 	// Todos are sorted by their original insertion order.
 	comparator: function(todo) {
-	  return todo.get('order');
+		return todo.get('order');
 	}
 
   });
@@ -94,11 +92,9 @@ $(function(){
 
 	// The DOM events specific to an item.
 	events: {
-	  "click .toggle"   : "toggleDone",
-	  "dblclick .view"  : "edit",
-	  "click a.destroy" : "clear",
-	  "keypress .edit"  : "updateOnEnter",
-	  "blur .edit"      : "close"
+	  "click .toggle"    : "toggleDone",
+	  "click a.destroy"  : "clear",
+	  "click a.update"   : "update"
 	},
 
 	// The TodoView listens for changes to its model, re-rendering. Since there's
@@ -122,23 +118,47 @@ $(function(){
 	  this.model.toggle();
 	},
 
-	// Switch this view into `"editing"` mode, displaying the input field.
-	edit: function() {
-	  this.$el.addClass("editing");
-	  this.input.focus();
-	},
+	update: function() {
+		var model = this.model;
+	    $("#addWorker").hide();   
+	    $('#updateWorker').slideToggle(300);
+	    $('#updateForm').children().each(function(index, item) {
+	    	item = $(item);
+	    	var name = item.attr('name');
+	    	if (name) {
+    			item.val(model.get(name));
+	    	}
+	    });
 
-	// Close the `"editing"` mode, saving changes to the todo.
-	close: function() {
-	  var value = this.input.val();
-	  if (!value) return this.clear();
-	  this.model.save({title: value});
-	  this.$el.removeClass("editing");
-	},
+	    $('#updateForm').on('submit', function() {
+		    var dataObj = {}, id = 1;
+	        $(this).serializeArray().forEach(function(value) {
+	        	if (value.name == 'order') {
+	        		id = value.value;
+	        	} else {
+	            	dataObj[value.name] = value.value;
+	        	}
+	        });
+		    $.ajax({
+	            type: 'POST',
+	            url: "/worker/crud",
+	            contentType: 'application/json',
+	            data: JSON.stringify({
+	                crud: 'update',
+	                table: 'worker',
+	                data: dataObj,
+	                where: {
+	                    attr: [ 'id' ],
+	                    data: [ id ]
+	                }
+	            })
+	        }).done(function() {
+	            console.log(arguments[0]);
+	            model.save(dataObj);
+	            $('#updateWorker').slideToggle(300);
+	        });
+	    });
 
-	// If you hit `enter`, we're through editing the item.
-	updateOnEnter: function(e) {
-	  if (e.keyCode == 13) this.close();
 	},
 
 	// Remove the item, destroy the model.
@@ -163,7 +183,8 @@ $(function(){
 
 	// Delegated events for creating new items, and clearing completed ones.
 	events: {
-	  "keypress #new-todo":  "createOnEnter",
+	  "keypress #new-todo":  "search",
+	  "click #add":  "add",
 	  "click #clear-completed": "clearCompleted",
 	  "click #toggle-all": "toggleAllComplete"
 	},
@@ -173,17 +194,14 @@ $(function(){
 	// loading any preexisting todos that might be saved in *localStorage*.
 	initialize: function() {
 
-	  this.input = this.$("#new-todo");
-	  this.allCheckbox = this.$("#toggle-all")[0];
+		this.input = this.$("#new-todo");
+		this.allCheckbox = this.$("#toggle-all")[0];
 
-	  Todos.bind('add', this.addOne, this);
-	  Todos.bind('reset', this.addAll, this);
-	  Todos.bind('all', this.render, this);
+		Todos.bind('reset', this.addAll, this);
+		Todos.bind('all', this.render, this);
 
-	  this.footer = this.$('footer');
-	  this.main = $('#main');
-
-	  Todos.fetch();
+		this.footer = this.$('footer');
+		this.main = $('#main');
 	},
 
 	// Re-rendering the App just means refreshing the statistics -- the rest
@@ -211,6 +229,11 @@ $(function(){
 	  this.$("#todo-list").append(view.render().el);
 	},
 
+	add: function(todo) {
+		$('#updateWorker').hide();
+	  	$('#addWorker').slideToggle(300);
+	},
+
 	// Add all items in the **Todos** collection at once.
 	addAll: function() {
 	  Todos.each(this.addOne);
@@ -218,12 +241,21 @@ $(function(){
 
 	// If you hit return in the main input field, create new **Todo** model,
 	// persisting it to *localStorage*.
-	createOnEnter: function(e) {
-	  if (e.keyCode != 13) return;
-	  if (!this.input.val()) return;
+	search: function(e) {
+		var inputValue = this.input.val();
+		if (e.keyCode != 13) return;
+		if (!inputValue) return;
 
-	  Todos.create({title: this.input.val()});
-	  this.input.val('');
+		//Todos.create({name: this.input.val()});
+		//Search Work
+		Todos.each(function(todo) {
+			todo.destroy({
+				pretend: true
+			});
+		});
+		Todos.fetch({searchName: inputValue});
+
+		this.input.val('');
 	},
 
 	// Clear all done todo items, destroying their models.

@@ -24,7 +24,7 @@ var attrs = [{
     value: 'id',
     type: 'Int'
 }, {
-    value: 'data',
+    value: 'name',
     type: 'Char'
 }];
 

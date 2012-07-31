@@ -9,9 +9,21 @@ body {
     line-height: 1.4em;
     background: #eeeeee;
     color: #333333;
-    width: 1200px;
+    width: 520px;
     margin: 0 auto;
     -webkit-font-smoothing: antialiased;
+}
+
+
+.clear {
+    clear: both;
+}
+
+.formPanel {
+    position: absolute;
+    text-align: center;
+    top: 0px;
+    margin-left: 80px;
 }
 
 #leftPanel {
@@ -88,22 +100,30 @@ body {
     text-decoration: line-through;
 }
 
-#todo-list .destroy {
+#todo-list .rightIcon {
     position: absolute;
-    right: 5px;
     top: 20px;
     /*display: none;*/
     cursor: pointer;
     width: 20px;
     height: 20px;
+}
+
+#todo-list .destroy {
+    right: 5px;
     background: url(destroy.png) no-repeat;
 }
 
-#todo-list li:hover .destroy {
+#todo-list .update {
+    right: 30px;
+    background: url(edit.png) no-repeat;
+}
+
+#todo-list li:hover .rightIcon {
     display: block;
 }
 
-#todo-list .destroy:hover {
+#todo-list .rightIcon:hover {
     background-position: 0 -20px;
 }
 
@@ -152,7 +172,7 @@ body {
     border-radius: 0 0 5px 5px;
 }
 
-#clear-completed {
+.button {
     float: right;
     line-height: 20px;
     text-decoration: none;
@@ -175,7 +195,7 @@ body {
     box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
 }
 
-#clear-completed:hover {
+.button:hover {
     background: rgba(0, 0, 0, 0.15);
     -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
     -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
@@ -184,7 +204,7 @@ body {
     box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
 }
 
-#clear-completed:active {
+.button:active {
     position: relative;
     top: 1px;
 }

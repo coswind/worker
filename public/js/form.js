@@ -1,10 +1,6 @@
-var contactForm, submitContactForm;
-var sent = false;
-var sendMessageUrl = '/worker/crud';
-
 $(document).ready(function(){
 
-    $('#ContactInfo').formly({'theme':'Dark'}, function(array) {
+    $('#addForm').formly({'theme':'Dark'}, function(array) {
         console.log(_.pluck(array, 'name'));
         console.log(_.pluck(array, 'value'));
 
@@ -22,6 +18,21 @@ $(document).ready(function(){
             })
         }).done(function() {
             console.log(arguments[0]);
+            $('#addWorker').slideToggle(300);
         });
+    });
+
+    $('#updateForm').formly({'theme':'Light'}, function(array) {
+        console.log(_.pluck(array, 'name'));
+        console.log(_.pluck(array, 'value'));
+
+        return;
+    });
+
+    $('#cancelUpdate').on('click', function() {
+        $('#updateWorker').slideToggle(300);
+    });
+    $('#cancelAdd').on('click', function() {
+        $('#addWorker').slideToggle(300);
     });   
-});
+}); 
