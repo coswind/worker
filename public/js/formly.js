@@ -141,7 +141,7 @@
 			$('#' + formName).find('input:reset').click(function(item)
 				{
 				item.preventDefault();
-				$('#' + formName).find('input:text, input:password, input:checkbox, input:radio').each(function()
+				$('#' + formName).find('input:text, input:password, input:checkbox, textarea, input:radio').each(function()
 					{
 					$(this).css('border-color', '');
 					

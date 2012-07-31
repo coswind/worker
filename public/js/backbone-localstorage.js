@@ -14,18 +14,9 @@ function guid() {
 
 // Our Store is represented by a single JS object in *localStorage*. Create it
 // with a meaningful name, like the name you'd give a table.
-var Store = function(name) {
-  this.name = name;
-  var store = localStorage.getItem(this.name);
-  this.data = (store && JSON.parse(store)) || {};
-};
+var Store = function() {};
 
 _.extend(Store.prototype, {
-
-  // Save the current state of the **Store** to *localStorage*.
-  save: function() {
-    localStorage.setItem(this.name, JSON.stringify(this.data));
-  },
 
   // Add a model, giving it a (hopefully)-unique GUID, if it doesn't already
   // have an id of it's own.
@@ -98,17 +89,16 @@ _.extend(Store.prototype, {
 
 });
 
+var store = new Store();
 // Override `Backbone.sync` to use delegate to the model or collection's
 // *localStorage* property, which should be an instance of `Store`.
 Backbone.sync = function(method, model, options) {
 
-  //console.trace();
-
   var resp;
-  var store = model.localStorage || model.collection.localStorage;
+  var store = store || model.localStorage || model.collection.localStorage;
 
   switch (method) {
-    case "read":    resp = model.id ? store.find(model) : store.findAll(options); return; break;
+    case "read":    resp = store.findAll(options);                 return; break;
     case "create":  resp = store.create(model);                            break;
     case "update":  resp = store.update(model);                            break;
     case "delete":  resp = store.destroy(model, options);                  break;

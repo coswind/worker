@@ -18,6 +18,7 @@ $(document).ready(function(){
             })
         }).done(function() {
             console.log(arguments[0]);
+            $('#resetButton').click();
             $('#addWorker').slideToggle(300);
         });
     });
