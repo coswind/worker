@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Backbone.js Todos</title>
+  <link rel="stylesheet" href="/todos/css/todos.css"/>
+  <link rel="stylesheet" href="/todos/css/formly.css"/>
+</head>
+
+<body>
+    <div id="todoapp">
+      
+      <header>
+        <h1>Search</h1>
+        <a id="add" class="button">Add new worker</a>
+        <input id="new-todo" type="text" placeholder="Who you want to find?">
+      </header>
+
+      <section id="main">
+        <input id="toggle-all" type="checkbox">
+        <label for="toggle-all">Delete all</label>
+        <ul id="todo-list"></ul>
+      </section>
+
+      <footer>
+        <a class="button" id="clear-completed">Delete worker</a>
+        <div id="todo-count"></div>
+      </footer>
+      
+    </div>
+    
+    <div id="instructions">
+      For more design.
+    </div>
+    
+    <div id="credits">
+      Created by
+      <br />
+      <a href="http://jgn.me/">J&eacute;r&ocirc;me Gravel-Niquet</a>.
+      <br />Rewritten by: <a href="mailto:yixia@bainainfo.com">CosWind</a>.
+    </div>
+
+  <div class="formPanel" id="addWorker" style="display: none;">
+    <form id="addForm" action="/worker/crud" width="338px" title="Add new worker">
+      <input type="text" name="name" require="true" place="Worker name" />
+      <select id="type" name="type" style="margin-left:6px;">
+        <option value="0">疏通管道</option>
+        <option value="1">家政保洁</option>
+        <option value="2">家电维修</option>
+        <option value="3">开锁</option>
+        <option value="4">搬家</option>
+        <option value="5">其它</option>
+      </select>
+      <input type="text" name="phone" require="true" size="35" place="Phone number" />
+      <input type="text" name="address" size="35" place="Address" />
+      <textarea style="width:290px;height:60px;" require="true" name="intro" place="Introduction"></textarea>
+      <input id="addWorker" type="submit" value="Add" /><input type="reset" id="resetButton" value="Clear" />
+      <input id="cancelAdd" type="button" value="Cancel" />
+    </form>
+  </div>
+
+  <div class="formPanel" id="updateWorker" style="display: none;">
+    <form id="updateForm" action="/worker/crud" width="338px" title="Edit worker">
+      <input type="text" size="21" name="name" require="true" place="Worker name" />
+      <select id="type" name="type" style="margin-left:6px;">
+        <option value="0">疏通管道</option>
+        <option value="1">家政保洁</option>
+        <option value="2">家电维修</option>
+        <option value="3">开锁</option>
+        <option value="4">搬家</option>
+        <option value="5">其它</option>
+      </select>
+      <input type="text" name="phone" require="true" size="35" place="Phone number" />
+      <input type="text" name="address" size="35" place="Address" />
+      <input type="hidden" name="order" />
+      <textarea style="width:290px;height:60px;" require="true" name="intro" place="Introduction"></textarea>
+      <input id="addWorker" type="submit" value="Update" />
+      <input type="reset" value="Clear" />
+      <input id="cancelUpdate" type="button" value="Cancel" />
+    </form>
+  </div>
+
+  <script src="/todos/js/json2.js"></script>
+  <script src="/todos/js/jquery-1.7.1.js"></script>
+  <script src="/todos/js/formly.js"></script>
+  <script src="/todos/js/form.js"></script>
+  <script src="/todos/js/underscore-1.3.1.js"></script>
+  <script src="/todos/js/backbone.js"></script>
+  <script src="/todos/js/backbone-localstorage.js"></script>
+  <script src="/todos/todos.js"></script>
+
+  <!-- Templates -->
+
+  <script type="text/template" id="item-template">
+    <div class="view">
+      <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
+      <label><%= name %></label>
+      <a class="rightIcon update"></a>
+      <a class="rightIcon destroy"></a>
+    </div>
+  </script>
+
+  <script type="text/template" id="stats-template">
+    <% if (done) { %>
+      <a class="button">Delete <%= done %> marked <%= done == 1 ? 'worker' : 'workers' %></a>
+    <% } %>
+    <div class="todo-count"><b><%= remaining %></b> <%= remaining == 1 ? 'worker' : 'workers' %> left</div>
+  </script>
+
+  </body>
+</html>

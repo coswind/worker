@@ -20,6 +20,8 @@ var pool = generic_pool.Pool({
     }
 });
 
+exports.pool = pool;
+
 var attrs = [{
     value: 'id',
     type: 'Int'
