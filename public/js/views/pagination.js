@@ -3,6 +3,9 @@ window.Pager = Backbone.View.extend({
     className: "pagination pagination-centered",
 
     initialize:function () {
+
+        this.showNum = 5; 
+
         this.model.bind("reset", this.render, this);
         this.render();
     },
@@ -14,6 +17,15 @@ window.Pager = Backbone.View.extend({
         var pageCount = Math.ceil(len / 8);
 
         $(this.el).html('<ul />');
+
+        if (this.showNum < pageCount) {
+
+            for (var i=0; i < this.showNum; i++) {
+                $('ul', this.el).append("<li" + ((i + 1) === this.options.page ? " class='active'" : "") + "><a href='#wines/page/"+(i+1)+"'>" + (i+1) + "</a></li>");
+            }
+
+            return this;
+        }
 
         for (var i=0; i < pageCount; i++) {
             $('ul', this.el).append("<li" + ((i + 1) === this.options.page ? " class='active'" : "") + "><a href='#wines/page/"+(i+1)+"'>" + (i+1) + "</a></li>");

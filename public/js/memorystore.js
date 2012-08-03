@@ -48,13 +48,13 @@ window.store = {
 
 store.populate();
 
-Backbone.sync = _.wrap(Backbone.sync, function(func, method, model, options) {
+/*Backbone.sync = _.wrap(Backbone.sync, function(func, method, model, options) {
     func(method, model, options);
-});
+});*/
 
 // Overriding Backbone's sync method. Replace the default RESTful services-based implementation
 // with a simple in-memory approach.
-/*Backbone.sync = function (method, model, options) {
+Backbone.sync = function (method, model, options) {
 
     var resp;
 
@@ -78,4 +78,4 @@ Backbone.sync = _.wrap(Backbone.sync, function(func, method, model, options) {
     } else {
         options.error("Record not found");
     }
-};*/
+};
