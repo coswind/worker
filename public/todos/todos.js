@@ -12,16 +12,17 @@ $(function(){
   // Our basic **Todo** model has `name`, `order`, and `done` attributes.
   var Todo = Backbone.Model.extend({
 
-  	idAttribute: "_id",
 	// Default attributes for the todo item.
 	defaults: function() {
 	  return {
 		name: "empty todo...",
+		id: null,
 		order: 1,
 		address: 'somewhere',
-		intro: 'sorry',
+		notes: 'sorry',
 		phone: '110',
-		type: 1,
+		type: '疏通管道',
+		picture: 'defaultFace.png',
 		done: false
 	  };
 	},
@@ -118,10 +119,19 @@ $(function(){
 	  this.model.toggle();
 	},
 
+	/*remove: function() {
+		console.log('haha');
+      this.$el.remove();
+      return this;
+    },*/
+
 	update: function() {
 		var model = this.model;
+		var picture = model.get('picture');
+		$('#picture').attr('src', '/pics/' + picture);
 	    $("#addWorker").hide();   
 	    $('#updateWorker').slideToggle(300);
+	    $('.upload').slideToggle(300);
 	    $('#updateForm').children().each(function(index, item) {
 	    	item = $(item);
 	    	var name = item.attr('name');
@@ -139,13 +149,14 @@ $(function(){
 	            	dataObj[value.name] = value.value;
 	        	}
 	        });
+	        dataObj.picture = $('#update-picture-name').attr('value');
 		    $.ajax({
 	            type: 'POST',
 	            url: "/worker/crud",
 	            contentType: 'application/json',
 	            data: JSON.stringify({
 	                crud: 'update',
-	                table: 'worker',
+	                table: 'wines',
 	                data: dataObj,
 	                where: {
 	                    attr: [ 'id' ],
@@ -153,9 +164,10 @@ $(function(){
 	                }
 	            })
 	        }).done(function() {
-	            console.log(arguments[0]);
 	            model.save(dataObj);
+	            console.log(arguments[0]);
 	            $('#updateWorker').slideToggle(300);
+	            $('.upload').slideToggle(300);
 	        });
 	    });
 
@@ -232,6 +244,9 @@ $(function(){
 	add: function(todo) {
 		$('#updateWorker').hide();
 	  	$('#addWorker').slideToggle(300);
+	  	$('#add-picture-name').attr('value', 'defaultFace.png');
+	  	$('#picture').attr('src', '/pics/defaultFace.png');
+	  	$('.upload').slideToggle(300);
 	},
 
 	// Add all items in the **Todos** collection at once.
@@ -248,7 +263,13 @@ $(function(){
 
 		//Todos.create({name: this.input.val()});
 		//Search Work
+
+		var todos = [];
+
 		Todos.each(function(todo) {
+			todos.push(todo);
+		});
+		todos.forEach(function(todo) {
 			todo.destroy({
 				pretend: true
 			});

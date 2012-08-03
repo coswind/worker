@@ -34,7 +34,7 @@ _.extend(Store.prototype, {
     var searchName = options.searchName;
     var data = {
         crud: 'query',
-        table: 'worker',
+        table: 'wines',
         range: '*',
         order: { id: true }
       };
@@ -52,11 +52,12 @@ _.extend(Store.prototype, {
     }).done(function() {
       options.success(JSON.parse(arguments[0])[1].map(function(value) {
         return {
-          _id: guid(),
+          id: value.id,
           address: value.address,
           phone: value.phone,
-          intro: value.intro,
+          notes: value.notes,
           type: value.type,
+          picture: value.picture,
           order: value.id,
           name: value.name
         };
@@ -73,7 +74,7 @@ _.extend(Store.prototype, {
       contentType: 'application/json',
       data: JSON.stringify({
         crud: 'delete',
-        table: 'worker',
+        table: 'wines',
         where: {
           attr: [ 'id' ],
           data: [ model.get('order') ]

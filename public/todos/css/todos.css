@@ -5,15 +5,69 @@ body {
 }
 
 body {
-    font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
-    line-height: 1.4em;
     background: #eeeeee;
-    color: #333333;
+    color: #4A4A4A;
     width: 520px;
     margin: 0 auto;
     -webkit-font-smoothing: antialiased;
+    font-family: "Quattrocento Sans", Arial, sans-serif;
 }
 
+@font-face {
+  font-family: 'Nosifer';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nosifer'), local('Nosifer-Regular'), url(Nosifer.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Quando';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Quando-Regular'), url(Quando.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Quattrocento Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Quattrocento Sans'), local('QuattrocentoSans'), url(QuattrocentoSans.woff) format('woff');
+}
+
+/*
+ *  Copy from bootstrap.css
+ */
+.well {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: white;
+  border: 1px solid #eee;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+     -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+          box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+}
+
+p {
+  margin: 0 0 9px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+/* Copy End. */
+
+.upload {
+    display: none;
+    width: 180px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: 350px;
+}
 
 .clear {
     clear: both;
@@ -52,6 +106,7 @@ body {
     font-weight: bold;
     text-align: center;
     padding: 0 0 10px 0;
+    font-family: "Nosifer", Arial, sans-serif;
 }
 
 #todoapp input[type="text"] {

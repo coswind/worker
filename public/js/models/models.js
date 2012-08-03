@@ -9,12 +9,8 @@ window.Wine = Backbone.Model.extend({
             return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter a name"};
         };
 
-        this.validators.grapes = function (value) {
-            return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter a grape variety"};
-        };
-
-        this.validators.country = function (value) {
-            return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter a country"};
+        this.validators.phone = function (value) {
+            return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter a phone"};
         };
     },
 
@@ -41,13 +37,12 @@ window.Wine = Backbone.Model.extend({
 
     defaults: {
         id: null,
-        name: "",
-        grapes: "",
-        country: "USA",
-        region: "California",
-        year: "",
-        description: "",
-        picture: 'generic.jpg'
+        name: "CosWind",
+        phone: "13871204705",
+        address: "USA",
+        type: "疏通管道",
+        notes: "I like backbone.js",
+        picture: "defaultFace.png"
     }
 });
 

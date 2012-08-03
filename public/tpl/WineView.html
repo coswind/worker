@@ -5,7 +5,7 @@
 
         <fieldset>
 
-            <legend>Wine Details</legend>
+            <legend>Worker Details</legend>
             <br/>
 
             <div class="row">
@@ -30,57 +30,49 @@
                     </div>
 
                     <div class="control-group">
-                        <label for="grapes" class="control-label">Grapes:</label>
+                        <label for="phone" class="control-label">Phone:</label>
 
                         <div class="controls">
-                            <input type="text" id="grapes" name="grapes" value="<%= grapes %>"/>
+                            <input type="text" id="phone" name="phone" value="<%= phone %>"/>
                             <span class="help-inline"></span>
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <label for="country" class="control-label">Country:</label>
+                        <label for="address" class="control-label">Address:</label>
 
                         <div class="controls">
-                            <input type="text" id="country" name="country" value="<%= country %>"/>
+                            <input type="text" id="address" name="address" value="<%= address %>"/>
                             <span class="help-inline"></span>
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <label for="region" class="control-label">Region:</label>
+                        <label for="type" class="control-label">Type:</label>
 
                         <div class="controls">
-                            <input type="text" id="region" name="region" value="<%= region %>"/>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label for="year" class="control-label">Year:</label>
-
-                        <div class="controls">
-                            <select class="span1" id="year" name="year" value="<%= year %>">
+                            <select class="span2" id="type" name="type" value="<%= type %>">
                                 <option
-                                <%= year == 2012?'selected':'' %>>2012</option>
+                                <%= type == '疏通管道' ? 'selected':'' %>>疏通管道</option>
                                 <option
-                                <%= year == 2011?'selected':'' %>>2011</option>
+                                <%= type == '家政保洁' ? 'selected':'' %>>家政保洁</option>
                                 <option
-                                <%= year == 2010?'selected':'' %>>2010</option>
+                                <%= type == '家电维修' ? 'selected':'' %>>家电维修</option>
                                 <option
-                                <%= year == 2009?'selected':'' %>>2009</option>
+                                <%= type == '开锁' ? 'selected':'' %>>开锁</option>
                                 <option
-                                <%= year == 2008?'selected':'' %>>2008</option>
+                                <%= type == '搬家' ? 'selected':'' %>>搬家</option>
                                 <option
-                                <%= year == 2007?'selected':'' %>>2007</option>
+                                <%= type == '其他' ? 'selected':'' %>>其他</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <label for="description" class="control-label">Notes:</label>
+                        <label for="notes" class="control-label">Notes:</label>
 
                         <div class="controls">
-                            <textarea id="description" name="description" class="span6" rows="6"><%= description %></textarea>
+                            <textarea id="notes" name="notes" class="span6" rows="6"><%= notes %></textarea>
                         </div>
                     </div>
 

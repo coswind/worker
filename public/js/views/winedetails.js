@@ -89,6 +89,7 @@ window.WineView = Backbone.View.extend({
 
         // Read the image file from the local file system and display it in the img tag
         var reader = new FileReader();
+        console.log(reader);
         reader.onloadend = function () {
             $('#picture').attr('src', reader.result);
         };

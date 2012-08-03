@@ -63,14 +63,13 @@ exports.post = function(req, res) {
         }
         db.query()
         .insert('wines',
-            ['name', 'grapes', 'country', 'region', 'year', 'description', 'picture'],
+            ['name', 'phone', 'address', 'type', 'notes', 'picture'],
             [
                 json.name,
-                json.grapes,
-                json.country,
-                json.region,
-                json.year,
-                json.description,
+                json.phone,
+                json.address,
+                json.type,
+                json.notes,
                 json.picture
             ]
         ).execute(function(err, rows, columns) {

@@ -27,8 +27,8 @@ CREATE TABLE `worker` (
   `name` varchar(40) NOT NULL,
   `phone` varchar(40) NOT NULL,
   `address` varchar(100) DEFAULT NULL,
-  `type` tinyint(3) NOT NULL,
-  `intro` varchar(200) NOT NULL,
+  `type` varchar(40) NOT NULL,
+  `notes` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
