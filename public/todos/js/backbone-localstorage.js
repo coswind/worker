@@ -34,7 +34,7 @@ _.extend(Store.prototype, {
     var searchName = options.searchName;
     var data = {
         crud: 'query',
-        table: 'wines',
+        table: 'user',
         range: '*',
         order: { id: true }
       };
@@ -55,7 +55,7 @@ _.extend(Store.prototype, {
           id: value.id,
           address: value.address,
           phone: value.phone,
-          notes: value.notes,
+          introduce: value.introduce,
           type: value.type,
           picture: value.picture,
           order: value.id,
@@ -74,7 +74,7 @@ _.extend(Store.prototype, {
       contentType: 'application/json',
       data: JSON.stringify({
         crud: 'delete',
-        table: 'wines',
+        table: 'user',
         where: {
           attr: [ 'id' ],
           data: [ model.get('order') ]

@@ -39,9 +39,11 @@ window.Wine = Backbone.Model.extend({
         id: null,
         name: "CosWind",
         phone: "13871204705",
+        username: 'CosWind',
+        password: '111111',
         address: "USA",
         type: "疏通管道",
-        notes: "I like backbone.js",
+        introduce: "I like backbone.js",
         picture: "defaultFace.png"
     }
 });

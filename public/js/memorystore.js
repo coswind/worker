@@ -13,7 +13,7 @@ window.store = {
                 phone: "13871204705",
                 address: "USA",
                 type: "0",
-                notes: "I like backbone.js",
+                introduce: "I like backbone.js",
                 picture: "waterbrook.jpg"
             };
         }

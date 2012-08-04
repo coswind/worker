@@ -28,6 +28,15 @@ var attrs = [{
 }, {
     value: 'name',
     type: 'Char'
+}, {
+    value: 'type',
+    type: 'Char'
+}, {
+    value: 'username',
+    type: 'Char'
+}, {
+    value: 'password',
+    type: 'Char'
 }];
 
 (function() {
@@ -69,6 +78,9 @@ var executeSql = function(opt) {
                 tmpDb = tmpDb.select(range).from(table);
                 break;
             case 'insert':
+                if (!data.name) {
+                    return callback('Insert without data');
+                }
                 tmpDb = tmpDb.insert(table, data.name, data.value);
                 break;
             case 'update':

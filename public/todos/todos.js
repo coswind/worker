@@ -19,7 +19,7 @@ $(function(){
 		id: null,
 		order: 1,
 		address: 'somewhere',
-		notes: 'sorry',
+		introduce: 'sorry',
 		phone: '110',
 		type: '疏通管道',
 		picture: 'defaultFace.png',
@@ -156,7 +156,7 @@ $(function(){
 	            contentType: 'application/json',
 	            data: JSON.stringify({
 	                crud: 'update',
-	                table: 'wines',
+	                table: 'user',
 	                data: dataObj,
 	                where: {
 	                    attr: [ 'id' ],

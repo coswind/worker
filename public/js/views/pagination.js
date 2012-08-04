@@ -15,11 +15,6 @@ window.Pager = Backbone.View.extend({
         this.render();
     },
 
-    events: {
-        // "click #prev"   : "prevPage",
-        // "click #next"   : "nextPage"
-    },
-
     render:function () {
 
         var showNum = this.showNum,

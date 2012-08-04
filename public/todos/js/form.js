@@ -2,14 +2,18 @@ $(document).ready(function(){
     var pictureFile;
 
     $('#addForm').formly({'theme':'Dark'}, function(array) {
+        array.push({ name:'username', value:'coswind' });
+        array.push({ name:'password', value: '111111' });
         console.log(_.pluck(array, 'name'));
         console.log(_.pluck(array, 'value'));
 
-        uploadFile(pictureFile, function() {
-            $.sticky('<b>File upload success!</b>', {
-                autoclose: 3000
+        if (pictureFile) {
+            uploadFile(pictureFile, function() {
+                $.sticky('<b>File upload success!</b>', {
+                    autoclose: 3000
+                });
             });
-        });
+        }
 
         $.ajax({
             type: 'POST',
@@ -17,7 +21,7 @@ $(document).ready(function(){
             contentType: 'application/json',
             data: JSON.stringify({
                 crud: 'insert',
-                table: 'wines',
+                table: 'user',
                 data: {
                     name: _.pluck(array, 'name'),
                     value: _.pluck(array, 'value')
