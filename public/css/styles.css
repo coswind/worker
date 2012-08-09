@@ -15,3 +15,7 @@ a.plain:hover
     float: left;
     margin-right: 12px;
 }
+
+.brand {
+    color: #eee !important;
+}
